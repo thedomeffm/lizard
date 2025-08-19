@@ -1,61 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Lizard Button</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    body {
+    <meta charset="UTF-8">
+    <title>Lizard Button</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <style>
+        body {
+            background: linear-gradient(135deg, #232526 0%, #414345 100%);
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
 
-      background: linear-gradient(135deg, #232526 0%, #414345 100%);
-      min-height: 100vh;
-      margin: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: 'Segoe UI', Arial, sans-serif;
-    }
-    .center-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
-    .lizard-btn {
-      background: #222;
-      color: #7fffd4;
-      border: none;
-      border-radius: 9999px;
-      font-size: 3rem;
-      padding: 3rem 3rem;
-      box-shadow: 0 4px 24px rgba(200, 200, 200, 0.4);
-      cursor: pointer;
-      transition: background 0.5s, transform 0.5s;
-    }
-    .lizard-btn:hover {
-      background: #7fffd4;
-      transform: scale(1.08);
-    }
-    /* Hide audio element */
-    #lizard-audio {
-      display: none;
-    }
-  </style>
+        .center-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lizard-btn {
+            background: #222;
+            color: #7fffd4;
+            border: none;
+            border-radius: 9999px;
+            font-size: 3rem;
+            padding: 3rem 3rem;
+            box-shadow: 0 4px 24px rgba(200, 200, 200, 0.4);
+            cursor: pointer;
+            transition: background 0.5s, transform 0.5s;
+        }
+
+        .lizard-btn:hover {
+            background: #7fffd4;
+            transform: scale(1.08);
+        }
+
+        #lizard-audio {
+            display: none;
+        }
+    </style>
 </head>
 <body>
-  <div class="center-container">
+<div class="center-container">
     <button class="lizard-btn" id="lizard-btn" aria-label="Play lizard sound">🦎</button>
     <audio id="lizard-audio" src="lizard.mp3"></audio>
-  </div>
-  <script>
+</div>
+<script>
     const btn = document.getElementById('lizard-btn');
-    const audio = document.getElementById('lizard-audio');
-    btn.addEventListener('click', () => {
-      if (audio.paused) {
-        audio.currentTime = 0;
+
+    function playLizardSound() {
+        const audio = new Audio('lizard.mp3');
         audio.play();
-      }
-    });
-  </script>
+    }
+
+    btn.addEventListener('click', playLizardSound);
+    document.addEventListener('keydown', playLizardSound);
+</script>
 </body>
 </html>
