@@ -53,14 +53,26 @@
 </div>
 <script>
     const btn = document.getElementById('lizard-btn');
+    let lizardScale = 1;
+    let resetTimeout = null;
+
+    function resetLizardScale() {
+        lizardScale = 1;
+        btn.style.transform = `scale(${lizardScale})`;
+    }
 
     function playLizardSound() {
         const audio = new Audio('lizard.mp3');
         if (Math.random() < 0.02) {
             audio.playbackRate = 0.10;
         }
-
         audio.play();
+
+        lizardScale *= 1.005;
+        btn.style.transform = `scale(${lizardScale})`;
+
+        if (resetTimeout) clearTimeout(resetTimeout);
+        resetTimeout = setTimeout(resetLizardScale, 500);
     }
 
     btn.addEventListener('click', playLizardSound);
