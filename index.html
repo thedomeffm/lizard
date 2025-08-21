@@ -33,7 +33,7 @@
             padding: 3rem 3rem;
             box-shadow: 0 4px 24px rgba(200, 200, 200, 0.4);
             cursor: pointer;
-            transition: background 0.5s, transform 0.5s;
+            transition: background 0.5s, transform 0.1s ease-in-out;
         }
 
         .lizard-btn:hover {
@@ -56,6 +56,21 @@
             right: 16px;
             z-index: 1000;
         }
+
+        #play-counter {
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(34,34,34,0.95);
+            color: #7fffd4;
+            margin: 0;
+            padding: 0.7rem 0;
+            font-size: 1.2rem;
+            text-align: center;
+            z-index: 999;
+            box-shadow: 0 -2px 12px rgba(0,0,0,0.2);
+        }
     </style>
 </head>
 <body>
@@ -68,10 +83,18 @@
     <button class="lizard-btn" id="lizard-btn" aria-label="Play lizard sound">🦎</button>
     <audio id="lizard-audio" src="lizard.mp3" preload="auto"></audio>
 </div>
+<div id="play-counter"></div>
 <script>
     const btn = document.getElementById('lizard-btn');
     let lizardScale = 1;
     let resetTimeout = null;
+
+    const counterEl = document.getElementById('play-counter');
+    let playCount = Number(localStorage.getItem('lizardPlayCount')) || 0;
+    function updateCounter() {
+        counterEl.textContent = `You lizarded already ${playCount} times`;
+    }
+    updateCounter();
 
     function resetLizardScale() {
         lizardScale = 1;
@@ -83,7 +106,13 @@
         if (Math.random() < 0.02) {
             audio.playbackRate = 0.10;
         }
-        audio.play();
+        audio.play().then(() => {
+            playCount++;
+            localStorage.setItem('lizardPlayCount', playCount);
+            updateCounter();
+        }).catch(() => {
+            // cry for help if audio fails to play
+        });
 
         lizardScale *= 1.005;
         btn.style.transform = `scale(${lizardScale})`;
